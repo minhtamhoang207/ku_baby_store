@@ -209,7 +209,19 @@ class DetailProductView extends GetView<DetailProductController> {
                                               letterSpacing: 0.4),
                                         )),
                                   ),
-                                  Container()
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 18),
+                                    child: Obx(() => Text(
+                                          controller.productModel.value!.detail,
+                                          style: TextStyle(
+                                              color: Color(0xff4F4F4F),
+                                              fontSize: 16,
+                                              height: 1.7,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.4),
+                                        )),
+                                  ),
                                 ]),
                           ),
                         ],

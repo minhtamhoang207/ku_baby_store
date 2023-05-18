@@ -21,20 +21,21 @@ class HomeView extends GetView<HomeController> {
           children: [
             Container(
               height: 155,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.bottomCenter,
+              padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               color: AppColors.primaryColos,
               child: Row(
                 children: [
-                  Container(
-                    height: 55,
-                    width: 55,
-                    decoration: BoxDecoration(
-                        color: AppColors.appYellow, shape: BoxShape.circle),
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.grey,
-                    ),
-                  ),
+                  // Container(
+                  //   height: 55,
+                  //   width: 55,
+                  //   decoration: BoxDecoration(
+                  //       color: AppColors.appYellow, shape: BoxShape.circle),
+                  //   child: const Icon(
+                  //     Icons.person,
+                  //     color: Colors.grey,
+                  //   ),
+                  // ),
                   const SizedBox(width: 20),
                   const Expanded(
                     child: Text(
@@ -54,7 +55,7 @@ class HomeView extends GetView<HomeController> {
             const SizedBox(height: 15),
             InkWell(
               onTap: () {
-                Get.back();
+                Get.toNamed(Routes.LIST_PRODUCT, arguments: 'Mẹ bầu');
               },
               child: const ListTile(
                 title: Text(
@@ -66,7 +67,7 @@ class HomeView extends GetView<HomeController> {
             ),
             InkWell(
               onTap: () {
-                Get.back();
+                Get.toNamed(Routes.LIST_PRODUCT, arguments: "Bé trai");
               },
               child: const ListTile(
                 title: Text(
@@ -78,7 +79,7 @@ class HomeView extends GetView<HomeController> {
             ),
             InkWell(
               onTap: () {
-                Get.back();
+                Get.toNamed(Routes.LIST_PRODUCT, arguments: 'Bé gái');
               },
               child: const ListTile(
                 title: Text(
@@ -90,7 +91,7 @@ class HomeView extends GetView<HomeController> {
             ),
             InkWell(
               onTap: () {
-                Get.back();
+                Get.toNamed(Routes.LIST_PRODUCT, arguments: 'Khác');
               },
               child: const ListTile(
                 title: Text(
@@ -186,28 +187,62 @@ class HomeView extends GetView<HomeController> {
                       _menuItem(
                           title: 'Mẹ bầu',
                           img: Assets.images.imgMom.path,
-                          color: AppColors.melon),
+                          color: AppColors.melon,
+                          onTap: () {
+                            Get.toNamed(Routes.LIST_PRODUCT,
+                                arguments: 'Mẹ bầu');
+                          }),
                       const SizedBox(width: 15),
                       _menuItem(
                           title: 'Bé trai',
                           img: Assets.images.imgBabyBoy.path,
-                          color: AppColors.lightBlue),
+                          color: AppColors.lightBlue,
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.LIST_PRODUCT,
+                              arguments: 'Bé trai',
+                            );
+                          }),
                       const SizedBox(width: 15),
                       _menuItem(
                           title: 'Bé gái',
                           img: Assets.images.imgBabyGirl.path,
-                          color: AppColors.lavender),
+                          color: AppColors.lavender,
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.LIST_PRODUCT,
+                              arguments: 'Bé gái',
+                            );
+                          }),
                       const SizedBox(width: 15),
                       _menuItem(
                           title: 'Khác',
                           img: Assets.images.imgOther.path,
-                          color: const Color(0xFF6FCF97)),
+                          color: const Color(0xFF6FCF97),
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.LIST_PRODUCT,
+                              arguments: 'Khác',
+                            );
+                          }),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 21),
               _trending(),
+              SizedBox(
+                height: 15,
+              ),
+              _ListProduct("Mẹ bầu"),
+              SizedBox(
+                height: 15,
+              ),
+              _ListProduct("Bé trai"),
+              SizedBox(
+                height: 15,
+              ),
+              _ListProduct("Bé gái"),
 
               ///todo Copy list
             ],
@@ -218,28 +253,36 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _menuItem(
-      {required String title, required String img, required Color color}) {
+      {required String title,
+      required String img,
+      required Color color,
+      required Function onTap}) {
     return Expanded(
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
-              decoration: BoxDecoration(
-                  color: color.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Image.asset(img),
+      child: GestureDetector(
+        onTap: () {
+          onTap.call();
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(top: 10, right: 10, left: 10),
+                decoration: BoxDecoration(
+                    color: color.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Image.asset(img),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(
-                color: Color(0xFF4F4F4F),
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
-          )
-        ],
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(
+                  color: Color(0xFF4F4F4F),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -284,7 +327,7 @@ class HomeView extends GetView<HomeController> {
                     ProductModel product = controller.listProduct.value[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(Routes.DETAIL_PRODUCT);
+                        Get.toNamed(Routes.DETAIL_PRODUCT, arguments: product);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -339,6 +382,119 @@ class HomeView extends GetView<HomeController> {
                   },
                   separatorBuilder: (_, __) => const SizedBox(width: 15),
                   itemCount: controller.listProduct.value.length)))
+        ],
+      ),
+    );
+  }
+
+  Widget _ListProduct(String title) {
+    return Container(
+      height: 331,
+      width: Get.width,
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+          color: Colors.white, //AppColors.melon.withOpacity(0.6),
+
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(21), bottomLeft: Radius.circular(21))),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
+              ),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.LIST_PRODUCT, arguments: title);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.primaryColos),
+                  child: const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          Expanded(child: Obx(() {
+            List<ProductModel> items = [];
+            if (title == "Mẹ bầu") items = controller.listProductMebau.value;
+            if (title == "Bé trai") items = controller.listProductBeTrai.value;
+            if (title == "Bé gái") items = controller.listProductBegai.value;
+            return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  ProductModel product = items[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: product);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      width: Get.width / 2 - 20,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(width: 1, color: Color(0xffEEEEEE)),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(product.image))),
+                            ),
+                          ),
+                          Text(
+                            product.name,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            Utils.vndFormat(product.price),
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: AppColors.primaryColos),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                                color: AppColors.primaryColos,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Center(
+                              child: Text(
+                                'Đặt hàng',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(width: 15),
+                itemCount: items.length);
+          }))
         ],
       ),
     );
