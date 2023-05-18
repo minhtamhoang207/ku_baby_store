@@ -28,12 +28,43 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/img_baby_boy.png
+  AssetGenImage get imgBabyBoy =>
+      const AssetGenImage('assets/images/img_baby_boy.png');
+
+  /// File path: assets/images/img_baby_girl.png
+  AssetGenImage get imgBabyGirl =>
+      const AssetGenImage('assets/images/img_baby_girl.png');
+
+  /// File path: assets/images/img_carousel.png
+  AssetGenImage get imgCarousel =>
+      const AssetGenImage('assets/images/img_carousel.png');
+
+  /// File path: assets/images/img_home_bg.png
+  AssetGenImage get imgHomeBg =>
+      const AssetGenImage('assets/images/img_home_bg.png');
+
+  /// File path: assets/images/img_mom.png
+  AssetGenImage get imgMom => const AssetGenImage('assets/images/img_mom.png');
+
+  /// File path: assets/images/img_other.png
+  AssetGenImage get imgOther =>
+      const AssetGenImage('assets/images/img_other.png');
+
   /// File path: assets/images/img_splash.png
   AssetGenImage get imgSplash =>
       const AssetGenImage('assets/images/img_splash.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [imgSplash];
+  List<AssetGenImage> get values => [
+        imgBabyBoy,
+        imgBabyGirl,
+        imgCarousel,
+        imgHomeBg,
+        imgMom,
+        imgOther,
+        imgSplash
+      ];
 }
 
 class Assets {
@@ -41,6 +72,10 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const String productMasterData = 'assets/product_master_data.json';
+
+  /// List of all assets
+  List<String> get values => [productMasterData];
 }
 
 class AssetGenImage {
