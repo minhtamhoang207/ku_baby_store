@@ -35,6 +35,7 @@ class DetailProductView extends GetView<DetailProductController> {
                       children: [
                         Container(
                           height: 400,
+                          color: Colors.white,
                           child: PageView.builder(
                               itemCount: 3,
                               onPageChanged: (index) {
