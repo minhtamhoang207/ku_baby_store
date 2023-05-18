@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_PRODUCT,
-      page: () => const DetailProductView(),
+      page: () => DetailProductView(),
       binding: DetailProductBinding(),
     ),
   ];

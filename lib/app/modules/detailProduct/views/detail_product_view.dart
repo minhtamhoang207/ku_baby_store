@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:kubaby/app/config/colors.dart';
+import 'package:kubaby/app/config/utils.dart';
 import 'package:kubaby/app/data/product/product.dart';
 import 'package:intl/intl.dart';
 import 'package:kubaby/app/modules/detailProduct/views/indicator.dart';
+import 'package:kubaby/app/routes/app_pages.dart';
 import '../controllers/detail_product_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
-  const DetailProductView({Key? key}) : super(key: key);
-  String formatCurrency(double amount) {
-    final formatCurrency = NumberFormat("#,##0", "en_US");
-    return formatCurrency.format(amount);
-  }
+  DetailProductView({Key? key}) : super(key: key);
 
+  final MyTabController _tabx = Get.put(MyTabController());
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -100,9 +99,10 @@ class DetailProductView extends GetView<DetailProductController> {
                               child: Text(
                                 controller.productModel.value!.name,
                                 maxLines: 2,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 21,
                                     // height: 0.4,
+                                    letterSpacing: 0.4,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w400),
                               ))),
@@ -116,10 +116,13 @@ class DetailProductView extends GetView<DetailProductController> {
                                   visible:
                                       controller.productModel.value != null,
                                   child: Text(
-                                    "${formatCurrency(controller.productModel.value!.price.toDouble())} đ",
+                                    Utils.vndFormat(
+                                        controller.productModel.value!.price),
+                                    // "${formatCurrency(controller.productModel.value!.price.toDouble())} đ",
                                     maxLines: 2,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 28,
+                                        letterSpacing: 0.4,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700),
                                   ))),
@@ -147,12 +150,70 @@ class DetailProductView extends GetView<DetailProductController> {
                     Container(
                       height: 500,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 12),
+                          horizontal: 12, vertical: 16),
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(16),
                               topRight: Radius.circular(16))),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 12,
+                          ),
+                          TabBar(
+                            controller: _tabx.controller,
+                            isScrollable: true,
+                            unselectedLabelColor: Colors.black45,
+                            labelPadding: EdgeInsets.symmetric(horizontal: 10),
+                            labelColor: Colors.grey,
+                            labelStyle: TextStyle(
+                              color: Color(0xff33333),
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            unselectedLabelStyle: TextStyle(
+                              color: Color(0xff848484).withOpacity(0.6),
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            indicator: const UnderlineTabIndicator(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                              // insets: EdgeInsets.symmetric(horizontal: 48),
+                            ),
+                            tabs: _tabx.myTabs,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Expanded(
+                            // height: 300,
+                            child: TabBarView(
+                                controller: _tabx.controller,
+                                children: [
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 18),
+                                    child: Obx(() => Text(
+                                          controller.productModel.value!.detail,
+                                          style: TextStyle(
+                                              color: Color(0xff4F4F4F),
+                                              fontSize: 16,
+                                              height: 1.7,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.4),
+                                        )),
+                                  ),
+                                  Container()
+                                ]),
+                          ),
+                        ],
+                      ),
                     )
                   ]),
             ),
@@ -162,6 +223,7 @@ class DetailProductView extends GetView<DetailProductController> {
             child: GestureDetector(
               onTap: () {
                 Get.back();
+                // Get.offNamed(Routes.HOME);
               },
               child: Container(
                 width: 50,
@@ -208,5 +270,27 @@ class DetailProductView extends GetView<DetailProductController> {
         ],
       ),
     );
+  }
+}
+
+class MyTabController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final List<Tab> myTabs = <Tab>[
+    Tab(text: 'Mô tả sản phẩm'),
+    Tab(text: 'Thông tin chi tiết'),
+  ];
+
+  late TabController controller;
+
+  @override
+  void onInit() {
+    super.onInit();
+    controller = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void onClose() {
+    controller.dispose();
+    super.onClose();
   }
 }

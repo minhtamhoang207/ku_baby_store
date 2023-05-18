@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kubaby/app/config/colors.dart';
 
 class Indicator extends StatelessWidget {
   const Indicator({Key? key, required this.isActive}) : super(key: key);
@@ -10,7 +11,7 @@ class Indicator extends StatelessWidget {
       width: isActive ? 22 : 8,
       height: 8,
       decoration: BoxDecoration(
-          color: isActive ? Colors.black : Colors.grey,
+          color: isActive ? AppColors.primaryColos : Color(0xffEBEBEB),
           borderRadius: BorderRadius.circular(8)),
     );
   }
