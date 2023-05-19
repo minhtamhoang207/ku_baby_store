@@ -74,6 +74,9 @@ class ListProductController extends GetxController {
       //   ];
       //   listStatusTitle.value = [true];
     }
+    if (title.value == "Tất cả") {
+      listProduct.value = listProductResponse;
+    }
     super.onInit();
   }
 

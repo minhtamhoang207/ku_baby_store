@@ -48,7 +48,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.settings, color: Colors.white))
+                      icon: Icon(Icons.settings, color: AppColors.primaryColos))
                 ],
               ),
             ),
@@ -288,101 +288,109 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _trending() {
-    return Container(
-      height: 331,
-      width: Get.width,
-      padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(
-          color: AppColors.melon.withOpacity(0.6),
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(21), bottomLeft: Radius.circular(21))),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'Sản phẩm bán chạy',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.LIST_PRODUCT, arguments: "Tất cả");
+      },
+      child: Container(
+        height: 331,
+        width: Get.width,
+        padding: const EdgeInsets.all(13),
+        decoration: BoxDecoration(
+            color: AppColors.melon.withOpacity(0.6),
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(21), bottomLeft: Radius.circular(21))),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Sản phẩm bán chạy',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: AppColors.primaryColos),
-                child: const Icon(
-                  Icons.arrow_forward_ios_sharp,
-                  size: 15,
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-              child: Obx(() => ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    ProductModel product = controller.listProduct.value[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.DETAIL_PRODUCT, arguments: product);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        width: Get.width / 2 - 20,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(product.image))),
-                              ),
-                            ),
-                            Text(
-                              product.name,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 16),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              Utils.vndFormat(product.price),
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: AppColors.primaryColos),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                  color: AppColors.primaryColos,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: const Center(
-                                child: Text(
-                                  'Đặt hàng',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                const SizedBox(width: 20),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.primaryColos),
+                  child: const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+                child: Obx(() => ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      ProductModel product =
+                          controller.listProduct.value[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.DETAIL_PRODUCT,
+                              arguments: product);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          width: Get.width / 2 - 20,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(product.image))),
                                 ),
                               ),
-                            )
-                          ],
+                              Text(
+                                product.name,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 16),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                Utils.vndFormat(product.price),
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: AppColors.primaryColos),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColos,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Center(
+                                  child: Text(
+                                    'Đặt hàng',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(width: 15),
-                  itemCount: controller.listProduct.value.length)))
-        ],
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(width: 15),
+                    itemCount: controller.listProduct.value.length)))
+          ],
+        ),
       ),
     );
   }
