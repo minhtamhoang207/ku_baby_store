@@ -121,7 +121,7 @@ class DetailProductView extends GetView<DetailProductController> {
                                         controller.productModel.value!.price),
                                     // "${formatCurrency(controller.productModel.value!.price.toDouble())} đ",
                                     maxLines: 2,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 28,
                                         letterSpacing: 0.4,
                                         color: Colors.white,
@@ -151,7 +151,7 @@ class DetailProductView extends GetView<DetailProductController> {
                     Container(
                       height: 500,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 16),
+                          horizontal: 12, vertical: 10),
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -287,28 +287,30 @@ class DetailProductView extends GetView<DetailProductController> {
                                   Text(
                                     'Đặt hàng',
                                     style: TextStyle(
-                                      color: AppColors.primaryColos,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18
-                                    ),
+                                        color: AppColors.primaryColos,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18),
                                   ),
                                   const SizedBox(height: 20),
                                   Container(
                                     height: 55,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.grey.withOpacity(0.6)),
-                                      borderRadius: BorderRadius.circular(10)
-                                    ),
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color:
+                                                Colors.grey.withOpacity(0.6)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                        hintText: 'Họ tên',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey.withOpacity(0.8)
-                                        ),
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                                        border: InputBorder.none
-                                      ),
+                                          hintText: 'Họ tên',
+                                          hintStyle: TextStyle(
+                                              color:
+                                                  Colors.grey.withOpacity(0.8)),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 15),
+                                          border: InputBorder.none),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -317,21 +319,20 @@ class DetailProductView extends GetView<DetailProductController> {
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(
-                                            color: Colors.grey.withOpacity(
-                                                0.6)),
-                                        borderRadius: BorderRadius.circular(10)
-                                    ),
+                                            color:
+                                                Colors.grey.withOpacity(0.6)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: TextField(
                                       decoration: InputDecoration(
                                           hintText: 'Số điện thoại',
                                           hintStyle: TextStyle(
-                                              color: Colors.grey.withOpacity(
-                                                  0.8)
-                                          ),
-                                          contentPadding: const EdgeInsets
-                                              .symmetric(horizontal: 15),
-                                          border: InputBorder.none
-                                      ),
+                                              color:
+                                                  Colors.grey.withOpacity(0.8)),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 15),
+                                          border: InputBorder.none),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -343,19 +344,23 @@ class DetailProductView extends GetView<DetailProductController> {
                                             Get.back();
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.symmetric(vertical: 12),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12),
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                              border: Border.all(color: AppColors.primaryColos)
-                                            ),
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: AppColors
+                                                        .primaryColos)),
                                             child: Center(
                                               child: Text(
                                                 'Huỷ',
                                                 style: TextStyle(
-                                                  color: AppColors.primaryColos,
-                                                  fontWeight: FontWeight.w700
-                                                ),
+                                                    color:
+                                                        AppColors.primaryColos,
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               ),
                                             ),
                                           ),
@@ -372,18 +377,18 @@ class DetailProductView extends GetView<DetailProductController> {
                                                 vertical: 12),
                                             decoration: BoxDecoration(
                                                 color: AppColors.primaryColos,
-                                                borderRadius: BorderRadius
-                                                    .circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                                 border: Border.all(
-                                                    color: AppColors.primaryColos)
-                                            ),
+                                                    color: AppColors
+                                                        .primaryColos)),
                                             child: const Center(
                                               child: Text(
                                                 'Đặt hàng',
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                  fontWeight: FontWeight.w700
-                                                ),
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               ),
                                             ),
                                           ),
