@@ -19,6 +19,7 @@ class DetailProductView extends GetView<DetailProductController> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Container(
@@ -261,7 +262,143 @@ class DetailProductView extends GetView<DetailProductController> {
                 padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 decoration: const BoxDecoration(color: Colors.white),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    showGeneralDialog(
+                      context: context,
+                      barrierColor: Colors.black.withOpacity(0.8),
+                      barrierDismissible: false,
+                      barrierLabel: 'dialog',
+                      transitionDuration: const Duration(milliseconds: 200),
+                      pageBuilder: (_, __, ___) {
+                        return Center(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Đặt hàng',
+                                    style: TextStyle(
+                                      color: AppColors.primaryColos,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.grey.withOpacity(0.6)),
+                                      borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: 'Họ tên',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey.withOpacity(0.8)
+                                        ),
+                                        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                                        border: InputBorder.none
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: Colors.grey.withOpacity(
+                                                0.6)),
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          hintText: 'Số điện thoại',
+                                          hintStyle: TextStyle(
+                                              color: Colors.grey.withOpacity(
+                                                  0.8)
+                                          ),
+                                          contentPadding: const EdgeInsets
+                                              .symmetric(horizontal: 15),
+                                          border: InputBorder.none
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                              border: Border.all(color: AppColors.primaryColos)
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Huỷ',
+                                                style: TextStyle(
+                                                  color: AppColors.primaryColos,
+                                                  fontWeight: FontWeight.w700
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primaryColos,
+                                                borderRadius: BorderRadius
+                                                    .circular(10),
+                                                border: Border.all(
+                                                    color: AppColors.primaryColos)
+                                            ),
+                                            child: const Center(
+                                              child: Text(
+                                                'Đặt hàng',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                  fontWeight: FontWeight.w700
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                   child: Container(
                     height: 62,
                     width: width,
