@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:kubaby/app/data/product/product.dart';
+import 'package:screenshot/screenshot.dart';
 
 class DetailProductController extends GetxController {
-  //TODO: Implement DetailProductController
 
   final count = 0.obs;
   // final Rx<ProductModel>? productModel = Rx<ProductModel>());

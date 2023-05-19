@@ -1,13 +1,21 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:get/get.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:kubaby/app/config/colors.dart';
 import 'package:kubaby/app/config/utils.dart';
 import 'package:kubaby/app/data/product/product.dart';
 import 'package:intl/intl.dart';
 import 'package:kubaby/app/modules/detailProduct/views/indicator.dart';
 import 'package:kubaby/app/routes/app_pages.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import '../controllers/detail_product_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
@@ -43,27 +51,32 @@ class DetailProductView extends GetView<DetailProductController> {
                               },
                               itemBuilder: (context, index) {
                                 return Obx(
-                                  () => Visibility(
-                                    visible:
-                                        controller.productModel.value != null,
-                                    child: SizedBox(
-                                      height: 400,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: CachedNetworkImage(
-                                          progressIndicatorBuilder:
-                                              (context, url, progress) =>
+                                      () =>
+                                      Visibility(
+                                        visible:
+                                        controller.productModel.value !=
+                                            null,
+                                        child: SizedBox(
+                                          height: 400,
+                                          child: FittedBox(
+                                            fit: BoxFit.cover,
+                                            child: CachedNetworkImage(
+                                              progressIndicatorBuilder:
+                                                  (context, url,
+                                                  progress) =>
                                                   Center(
-                                            child: CircularProgressIndicator(
-                                              value: progress.progress,
+                                                    child: CircularProgressIndicator(
+                                                      value: progress
+                                                          .progress,
+                                                    ),
+                                                  ),
+                                              imageUrl: controller
+                                                  .productModel.value!
+                                                  .image,
                                             ),
                                           ),
-                                          imageUrl: controller
-                                              .productModel.value!.image,
                                         ),
                                       ),
-                                    ),
-                                  ),
                                 );
                               }),
                         ),
@@ -77,11 +90,12 @@ class DetailProductView extends GetView<DetailProductController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 for (int index = 0; index < 3; index++)
-                                  Obx(() => Indicator(
+                                  Obx(() =>
+                                      Indicator(
                                         isActive:
-                                            controller.count.value == index
-                                                ? true
-                                                : false,
+                                        controller.count.value == index
+                                            ? true
+                                            : false,
                                       ))
                               ],
                             ),
@@ -91,53 +105,69 @@ class DetailProductView extends GetView<DetailProductController> {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Obx(() => Visibility(
-                              visible: controller.productModel.value != null,
-                              child: Text(
-                                controller.productModel.value!.name,
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 21,
-                                    // height: 0.4,
-                                    letterSpacing: 0.4,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400),
-                              ))),
+                          Obx(() =>
+                              Visibility(
+                                  visible: controller.productModel.value !=
+                                      null,
+                                  child: Text(
+                                    controller.productModel.value!.name,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        fontSize: 21,
+                                        // height: 0.4,
+                                        letterSpacing: 0.4,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400),
+                                  ))),
                           const SizedBox(
                             height: 12,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween,
                             children: [
-                              Obx(() => Visibility(
-                                  visible:
+                              Obx(() =>
+                                  Visibility(
+                                      visible:
                                       controller.productModel.value != null,
-                                  child: Text(
-                                    Utils.vndFormat(
-                                        controller.productModel.value!.price),
-                                    // "${formatCurrency(controller.productModel.value!.price.toDouble())} đ",
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                        fontSize: 28,
-                                        letterSpacing: 0.4,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700),
-                                  ))),
-                              Container(
-                                width: 42,
-                                height: 42,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white),
-                                child: const Icon(
-                                  Icons.share,
-                                  size: 24,
-                                  color: Colors.grey,
+                                      child: Text(
+                                        Utils.vndFormat(
+                                            controller.productModel.value!
+                                                .price),
+                                        // "${formatCurrency(controller.productModel.value!.price.toDouble())} đ",
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            fontSize: 28,
+                                            letterSpacing: 0.4,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
+                                      ))),
+                              GestureDetector(
+                                onTap: () {
+                                  Share.share(
+                                      '${controller.productModel.value!.name} '
+                                          '- ${controller.productModel.value!.price}'
+                                          '- ${controller.productModel.value!.detail}',
+                                      subject: controller.productModel.value!
+                                          .name
+                                  );
+                                },
+                                child: Container(
+                                  width: 42,
+                                  height: 42,
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white),
+                                  child: const Icon(
+                                    Icons.share,
+                                    size: 24,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               )
                             ],
@@ -151,7 +181,7 @@ class DetailProductView extends GetView<DetailProductController> {
                     Container(
                       height: 500,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 10),
+                          horizontal: 12, vertical: 16),
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -166,7 +196,8 @@ class DetailProductView extends GetView<DetailProductController> {
                             controller: _tabx.controller,
                             isScrollable: true,
                             unselectedLabelColor: Colors.black45,
-                            labelPadding: EdgeInsets.symmetric(horizontal: 10),
+                            labelPadding: EdgeInsets.symmetric(
+                                horizontal: 10),
                             labelColor: Colors.grey,
                             labelStyle: TextStyle(
                               color: Color(0xff33333),
@@ -199,9 +230,11 @@ class DetailProductView extends GetView<DetailProductController> {
                                 children: [
                                   Container(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 18),
-                                    child: Obx(() => Text(
-                                          controller.productModel.value!.detail,
+                                    EdgeInsets.symmetric(horizontal: 18),
+                                    child: Obx(() =>
+                                        Text(
+                                          controller.productModel.value!
+                                              .detail,
                                           style: TextStyle(
                                               color: Color(0xff4F4F4F),
                                               fontSize: 16,
@@ -212,9 +245,11 @@ class DetailProductView extends GetView<DetailProductController> {
                                   ),
                                   Container(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 18),
-                                    child: Obx(() => Text(
-                                          controller.productModel.value!.detail,
+                                    EdgeInsets.symmetric(horizontal: 18),
+                                    child: Obx(() =>
+                                        Text(
+                                          controller.productModel.value!
+                                              .detail,
                                           style: TextStyle(
                                               color: Color(0xff4F4F4F),
                                               fontSize: 16,
@@ -259,7 +294,8 @@ class DetailProductView extends GetView<DetailProductController> {
                 width: width,
                 height: 120,
                 alignment: Alignment.topCenter,
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10),
                 decoration: const BoxDecoration(color: Colors.white),
                 child: GestureDetector(
                   onTap: () {
@@ -272,7 +308,8 @@ class DetailProductView extends GetView<DetailProductController> {
                       pageBuilder: (_, __, ___) {
                         return Center(
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16),
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -289,28 +326,7 @@ class DetailProductView extends GetView<DetailProductController> {
                                     style: TextStyle(
                                         color: AppColors.primaryColos,
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 18),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Container(
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color:
-                                                Colors.grey.withOpacity(0.6)),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText: 'Họ tên',
-                                          hintStyle: TextStyle(
-                                              color:
-                                                  Colors.grey.withOpacity(0.8)),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 15),
-                                          border: InputBorder.none),
+                                        fontSize: 18
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -319,20 +335,47 @@ class DetailProductView extends GetView<DetailProductController> {
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(
-                                            color:
-                                                Colors.grey.withOpacity(0.6)),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                            color: Colors.grey.withOpacity(
+                                                0.6)),
+                                        borderRadius: BorderRadius.circular(
+                                            10)
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          hintText: 'Họ tên',
+                                          hintStyle: TextStyle(
+                                              color: Colors.grey
+                                                  .withOpacity(0.8)
+                                          ),
+                                          contentPadding: const EdgeInsets
+                                              .symmetric(horizontal: 15),
+                                          border: InputBorder.none
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: Colors.grey.withOpacity(
+                                                0.6)),
+                                        borderRadius: BorderRadius.circular(
+                                            10)
+                                    ),
                                     child: TextField(
                                       decoration: InputDecoration(
                                           hintText: 'Số điện thoại',
                                           hintStyle: TextStyle(
-                                              color:
-                                                  Colors.grey.withOpacity(0.8)),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 15),
-                                          border: InputBorder.none),
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.8)
+                                          ),
+                                          contentPadding: const EdgeInsets
+                                              .symmetric(horizontal: 15),
+                                          border: InputBorder.none
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -344,23 +387,25 @@ class DetailProductView extends GetView<DetailProductController> {
                                             Get.back();
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12),
+                                            padding: const EdgeInsets
+                                                .symmetric(vertical: 12),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                borderRadius: BorderRadius
+                                                    .circular(10),
                                                 border: Border.all(
                                                     color: AppColors
-                                                        .primaryColos)),
+                                                        .primaryColos)
+                                            ),
                                             child: Center(
                                               child: Text(
                                                 'Huỷ',
                                                 style: TextStyle(
-                                                    color:
-                                                        AppColors.primaryColos,
-                                                    fontWeight:
-                                                        FontWeight.w700),
+                                                    color: AppColors
+                                                        .primaryColos,
+                                                    fontWeight: FontWeight
+                                                        .w700
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -373,22 +418,26 @@ class DetailProductView extends GetView<DetailProductController> {
                                             Get.back();
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.symmetric(
+                                            padding: const EdgeInsets
+                                                .symmetric(
                                                 vertical: 12),
                                             decoration: BoxDecoration(
-                                                color: AppColors.primaryColos,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                color: AppColors
+                                                    .primaryColos,
+                                                borderRadius: BorderRadius
+                                                    .circular(10),
                                                 border: Border.all(
                                                     color: AppColors
-                                                        .primaryColos)),
+                                                        .primaryColos)
+                                            ),
                                             child: const Center(
                                               child: Text(
                                                 'Đặt hàng',
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w700),
+                                                    fontWeight: FontWeight
+                                                        .w700
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -422,7 +471,7 @@ class DetailProductView extends GetView<DetailProductController> {
                 )),
           ),
         ],
-      ),
+      )
     );
   }
 }
