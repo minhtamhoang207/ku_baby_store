@@ -374,7 +374,7 @@ class HomeView extends GetView<HomeController> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: const Center(
                                   child: Text(
-                                    'Đặt hàng',
+                                    'Liên hệ',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -487,7 +487,7 @@ class HomeView extends GetView<HomeController> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: const Center(
                               child: Text(
-                                'Đặt hàng',
+                                'Liên hệ',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,

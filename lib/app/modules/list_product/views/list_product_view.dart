@@ -156,7 +156,7 @@ class ListProductView extends GetView<ListProductController> {
                                               BorderRadius.circular(14)),
                                       child: const Center(
                                         child: Text(
-                                          'Đặt hàng',
+                                          'Liên hệ',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
